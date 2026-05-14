@@ -58,8 +58,24 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const all = await fetchAllBooks();
+        // Allow a one-off force-reseed via ?seed=force. After the seed we
+        // strip the query so a refresh doesn't redo it endlessly.
+        const params = new URLSearchParams(window.location.search);
+        const force = params.get("seed") === "force";
+        const all = await fetchAllBooks({ force });
         setBooks(all);
+        if (force) {
+          params.delete("seed");
+          const cleanUrl =
+            window.location.pathname +
+            (params.toString() ? `?${params.toString()}` : "") +
+            window.location.hash;
+          window.history.replaceState({}, "", cleanUrl);
+          // eslint-disable-next-line no-alert
+          alert(
+            `Re-seed completato: ${all.length} libri ricaricati con tutte le note.`
+          );
+        }
       } catch (e) {
         console.error(e);
         setError(String(e.message || e));

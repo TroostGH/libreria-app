@@ -90,11 +90,12 @@ export function deriveStatusAndYear(book) {
   return next;
 }
 
-export async function fetchAllBooks() {
+export async function fetchAllBooks({ force = false } = {}) {
   if (hasFirebaseConfig && db) {
     const snap = await getDocs(collection(db, "books"));
-    if (snap.empty) {
-      // Seed Firestore the first time the app is loaded against an empty project.
+    if (snap.empty || force) {
+      // Either the collection is empty (first load) or the caller asked
+      // for a forced re-seed (e.g. ?seed=force in the URL).
       await seedFirestore();
       const snap2 = await getDocs(collection(db, "books"));
       return snap2.docs.map((d) => ({ id: d.id, ...d.data() }));
@@ -102,6 +103,10 @@ export async function fetchAllBooks() {
     return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
   }
   // Local fallback
+  if (force) {
+    writeLocal(seedBooks);
+    return seedBooks;
+  }
   let local = readLocal();
   if (!local) {
     local = seedBooks;
