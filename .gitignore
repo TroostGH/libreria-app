@@ -1,0 +1,8 @@
+node_modules
+dist
+.firebase
+.env
+.env.local
+*.log
+.DS_Store
+vite.config.js.timestamp-*
