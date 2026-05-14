@@ -278,6 +278,10 @@ body {
   flex-wrap: wrap;
   min-height: 220px;
 }
+.books-row > .book {
+  /* Desktop & tablet: all books share the same width */
+  width: 130px;
+}
 .empty-shelf {
   color: var(--on-surface-faint);
   font-style: italic;
@@ -730,5 +734,26 @@ body {
   }
   .stats {
     grid-template-columns: repeat(2, 1fr);
+  }
+  /* Mobile: exactly 3 books per row, evenly sized */
+  .books-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .books-row > .book {
+    width: auto;
+    height: 200px;
+    padding: 12px 12px 10px;
+  }
+  .books-row > .book .book-title {
+    font-size: 13px;
+    -webkit-line-clamp: 4;
+  }
+  .books-row > .book .book-author {
+    font-size: 10px;
+  }
+  .books-row > .book .rating {
+    font-size: 12px;
   }
 }

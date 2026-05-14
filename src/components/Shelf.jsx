@@ -44,7 +44,6 @@ export default function Shelf({
             {onAdd && (
               <div
                 className="book empty-add"
-                style={{ width: 110 }}
                 onClick={onAdd}
                 title="Aggiungi un libro a questo scaffale"
               >

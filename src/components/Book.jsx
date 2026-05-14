@@ -50,15 +50,11 @@ export default function Book({ book, onClick }) {
   if (book.status === "abandoned") cls.push("abandoned");
   if (book.status === "toread") cls.push("toread");
 
-  // Width 100-140 px based on pages so thicker books visually feel bigger.
-  // Height is FIXED so the shelf looks tidy.
-  const p = book.pages || 200;
-  const width = Math.max(100, Math.min(140, 100 + Math.round(p / 16)));
-
+  // All books share the same width (CSS controls it). Only color varies.
   return (
     <div
       className={cls.join(" ")}
-      style={{ background: color, width }}
+      style={{ background: color }}
       onClick={onClick}
       title={`${book.title}${book.author ? " — " + book.author : ""}`}
     >
