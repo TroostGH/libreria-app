@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StarRating from "./StarRating.jsx";
+import { deriveStatusAndYear } from "../lib/books.js";
 
 const STATUSES = [
   { v: "toread", l: "Da leggere" },
@@ -25,6 +26,11 @@ export default function BookDetail({ book, onClose, onSave, onDelete }) {
 
   function update(patch) {
     setDraft((d) => ({ ...d, ...patch }));
+  }
+
+  // When dates change, recompute status+year live (preserving "abandoned").
+  function updateDates(patch) {
+    setDraft((d) => deriveStatusAndYear({ ...d, ...patch }));
   }
 
   function save() {
@@ -100,21 +106,20 @@ export default function BookDetail({ book, onClose, onSave, onDelete }) {
 
         <div className="fields-grid">
           <div className="field">
-            <label>Anno (scaffale)</label>
-            <input
-              type="number"
-              value={draft.year || ""}
-              onChange={(e) =>
-                update({ year: e.target.value ? Number(e.target.value) : 0 })
-              }
-              placeholder="es. 2026 — 0 = Da leggere"
-            />
+            <label>Scaffale (auto)</label>
+            <div className="value">
+              {draft.year && draft.year > 0
+                ? draft.year
+                : "Da leggere"}
+            </div>
           </div>
           <div className="field">
-            <label>Status</label>
+            <label>Status (auto, salvo "Abbandonato")</label>
             <select
               value={draft.status || "toread"}
-              onChange={(e) => update({ status: e.target.value })}
+              onChange={(e) =>
+                setDraft((d) => deriveStatusAndYear({ ...d, status: e.target.value }))
+              }
             >
               {STATUSES.map((s) => (
                 <option key={s.v} value={s.v}>
@@ -156,7 +161,7 @@ export default function BookDetail({ book, onClose, onSave, onDelete }) {
             <input
               type="date"
               value={draft.dateStart || ""}
-              onChange={(e) => update({ dateStart: e.target.value })}
+              onChange={(e) => updateDates({ dateStart: e.target.value })}
             />
           </div>
           <div className="field">
@@ -164,7 +169,7 @@ export default function BookDetail({ book, onClose, onSave, onDelete }) {
             <input
               type="date"
               value={draft.dateEnd || ""}
-              onChange={(e) => update({ dateEnd: e.target.value })}
+              onChange={(e) => updateDates({ dateEnd: e.target.value })}
             />
           </div>
           <div className="field">

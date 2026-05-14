@@ -59,6 +59,37 @@ export function emptyBook(year = new Date().getFullYear()) {
   };
 }
 
+// Status & shelf are derived from dates:
+//   - no dates                  -> toread (Da leggere shelf, year=0)
+//   - only dateStart            -> reading
+//   - dateStart and dateEnd     -> finished
+// "abandoned" is opt-in: once set manually it sticks, regardless of dates.
+// The shelf year follows the start date (or end date as fallback) for any
+// book that has at least one date.
+export function deriveStatusAndYear(book) {
+  const hasStart = !!(book.dateStart && String(book.dateStart).trim());
+  const hasEnd = !!(book.dateEnd && String(book.dateEnd).trim());
+  const next = { ...book };
+
+  // Auto-set status unless the user explicitly chose "abandoned"
+  if (next.status !== "abandoned") {
+    if (!hasStart && !hasEnd) next.status = "toread";
+    else if (hasStart && !hasEnd) next.status = "reading";
+    else next.status = "finished";
+  }
+
+  // Shelf year follows status + dates
+  if (next.status === "toread") {
+    next.year = 0;
+  } else {
+    const ref = next.dateStart || next.dateEnd || "";
+    const m = /^(\d{4})/.exec(ref);
+    if (m) next.year = Number(m[1]);
+    // else: keep existing year (e.g. abandoned book without dates)
+  }
+  return next;
+}
+
 export async function fetchAllBooks() {
   if (hasFirebaseConfig && db) {
     const snap = await getDocs(collection(db, "books"));
@@ -80,18 +111,22 @@ export async function fetchAllBooks() {
 }
 
 export async function saveBook(book) {
+  // Always run through the auto-status/shelf derivation so manual edits stay
+  // consistent with the rule "date drive shelf and status".
+  const finalBook = deriveStatusAndYear(book);
+
   if (hasFirebaseConfig && db) {
-    const ref = doc(db, "books", book.id);
-    await setDoc(ref, book, { merge: true });
-    return book;
+    const ref = doc(db, "books", finalBook.id);
+    await setDoc(ref, finalBook, { merge: true });
+    return finalBook;
   }
   // Local fallback
   const all = readLocal() || [];
-  const idx = all.findIndex((b) => b.id === book.id);
-  if (idx >= 0) all[idx] = book;
-  else all.push(book);
+  const idx = all.findIndex((b) => b.id === finalBook.id);
+  if (idx >= 0) all[idx] = finalBook;
+  else all.push(finalBook);
   writeLocal(all);
-  return book;
+  return finalBook;
 }
 
 export async function deleteBook(bookId) {
