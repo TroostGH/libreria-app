@@ -59,33 +59,58 @@ export function emptyBook(year = new Date().getFullYear()) {
   };
 }
 
-// Status & shelf are derived from dates:
+// Status normalisation rules.
+//
+// "abandoned" and "finished" are sticky — the user chose them explicitly, so
+// we don't downgrade a legacy 2020 finished book to "toread" just because the
+// dates are missing. "reading" without a dateStart is inconsistent and gets
+// demoted to "toread". Everything else (toread, empty) follows the strict
+// date rule the user asked for:
 //   - no dates                  -> toread (Da leggere shelf, year=0)
 //   - only dateStart            -> reading
 //   - dateStart and dateEnd     -> finished
-// "abandoned" is opt-in: once set manually it sticks, regardless of dates.
-// The shelf year follows the start date (or end date as fallback) for any
-// book that has at least one date.
+//
+// Shelf year follows the resulting status: toread → 0; otherwise year of
+// dateStart (fallback dateEnd, fallback existing year).
 export function deriveStatusAndYear(book) {
   const hasStart = !!(book.dateStart && String(book.dateStart).trim());
   const hasEnd = !!(book.dateEnd && String(book.dateEnd).trim());
   const next = { ...book };
+  const s = next.status || "";
 
-  // Auto-set status unless the user explicitly chose "abandoned"
-  if (next.status !== "abandoned") {
+  if (s === "abandoned" || s === "finished") {
+    // sticky
+  } else if (s === "reading" && !hasStart) {
+    next.status = "toread";
+  } else {
+    // empty, toread, or reading-with-dates → derive purely from dates
     if (!hasStart && !hasEnd) next.status = "toread";
     else if (hasStart && !hasEnd) next.status = "reading";
     else next.status = "finished";
   }
 
-  // Shelf year follows status + dates
   if (next.status === "toread") {
     next.year = 0;
   } else {
     const ref = next.dateStart || next.dateEnd || "";
     const m = /^(\d{4})/.exec(ref);
     if (m) next.year = Number(m[1]);
-    // else: keep existing year (e.g. abandoned book without dates)
+    // else keep existing year (e.g. abandoned/finished without dates)
+  }
+  return next;
+}
+
+// Lightweight helper: keep the user's chosen status but recompute the shelf
+// year. Used by the status dropdown so picking a status manually doesn't get
+// fought by the date-based auto-derivation.
+export function deriveYearOnly(book) {
+  const next = { ...book };
+  if (next.status === "toread") {
+    next.year = 0;
+  } else {
+    const ref = next.dateStart || next.dateEnd || "";
+    const m = /^(\d{4})/.exec(ref);
+    if (m) next.year = Number(m[1]);
   }
   return next;
 }
@@ -116,9 +141,10 @@ export async function fetchAllBooks({ force = false } = {}) {
 }
 
 export async function saveBook(book) {
-  // Always run through the auto-status/shelf derivation so manual edits stay
-  // consistent with the rule "date drive shelf and status".
-  const finalBook = deriveStatusAndYear(book);
+  // Always re-align the shelf year with the current status + dates, but DO
+  // NOT overwrite a manually-picked status (the UI is the source of truth
+  // for status — it already runs deriveStatusAndYear when dates change).
+  const finalBook = deriveYearOnly(book);
 
   if (hasFirebaseConfig && db) {
     const ref = doc(db, "books", finalBook.id);
@@ -145,7 +171,10 @@ export async function deleteBook(bookId) {
 
 async function seedFirestore() {
   const batch = writeBatch(db);
-  for (const b of seedBooks) {
+  for (const raw of seedBooks) {
+    // Normalise each book through the same status/shelf rules used in the UI
+    // so the seed dataset always lands on the correct shelf.
+    const b = deriveStatusAndYear({ ...raw });
     batch.set(doc(db, "books", b.id), b);
   }
   await batch.commit();

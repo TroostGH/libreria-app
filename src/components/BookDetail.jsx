@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StarRating from "./StarRating.jsx";
-import { deriveStatusAndYear } from "../lib/books.js";
+import { deriveStatusAndYear, deriveYearOnly } from "../lib/books.js";
 
 const STATUSES = [
   { v: "toread", l: "Da leggere" },
@@ -94,7 +94,7 @@ export default function BookDetail({ book, onClose, onSave, onDelete }) {
             <select
               value={draft.status || "toread"}
               onChange={(e) =>
-                setDraft((d) => deriveStatusAndYear({ ...d, status: e.target.value }))
+                setDraft((d) => deriveYearOnly({ ...d, status: e.target.value }))
               }
             >
               {STATUSES.map((s) => (
