@@ -1,33 +1,25 @@
 // Firebase setup.
 //
-// The config is filled in via env vars (see .env.local) so the same code
-// works locally and in production. If env vars are missing the app falls
-// back to a local-only mode that reads from src/data/books.json.
+// La config qui sotto è il "web app config" di Firebase. È pubblica per
+// design (Firebase la usa per identificare il progetto, NON per controllare
+// l'accesso). La sicurezza dei dati passa per le regole di Firestore
+// (firestore.rules).
+//
+// Riferimento ufficiale: https://firebase.google.com/docs/projects/api-keys
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-const env = import.meta.env;
-
 const firebaseConfig = {
-  apiKey: env.VITE_FB_API_KEY,
-  authDomain: env.VITE_FB_AUTH_DOMAIN,
-  projectId: env.VITE_FB_PROJECT_ID,
-  storageBucket: env.VITE_FB_STORAGE_BUCKET,
-  messagingSenderId: env.VITE_FB_SENDER_ID,
-  appId: env.VITE_FB_APP_ID,
+  apiKey: "AIzaSyDYsgzClBRMEhJGCK9ChwgslQXEeWbjtKU",
+  authDomain: "libreria-app-41b47.firebaseapp.com",
+  projectId: "libreria-app-41b47",
+  storageBucket: "libreria-app-41b47.firebasestorage.app",
+  messagingSenderId: "506076458519",
+  appId: "1:506076458519:web:2455e12da984e0f26c7652",
 };
 
-export const hasFirebaseConfig = Boolean(
-  firebaseConfig.apiKey && firebaseConfig.projectId
-);
+export const hasFirebaseConfig = true;
 
-let app = null;
-let db = null;
-
-if (hasFirebaseConfig) {
-  app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-}
-
-export { app, db };
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
