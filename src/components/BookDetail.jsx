@@ -54,9 +54,7 @@ export default function BookDetail({ book, onClose, onSave, onDelete }) {
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="topbar">
-          <div style={{ fontSize: 12, color: "var(--ink-soft)", letterSpacing: "0.1em" }}>
-            {draft.year ? `SCAFFALE ${draft.year}` : "DA LEGGERE"}
-          </div>
+          <div>{draft.year ? `SCAFFALE ${draft.year}` : "DA LEGGERE"}</div>
           <div className="actions">
             <button className="btn primary" onClick={save}>
               Salva
@@ -72,33 +70,11 @@ export default function BookDetail({ book, onClose, onSave, onDelete }) {
 
         <input
           className="book-title-input"
-          style={{
-            width: "100%",
-            border: "none",
-            outline: "none",
-            background: "transparent",
-            fontSize: 28,
-            fontFamily: "inherit",
-            fontWeight: "bold",
-            color: "var(--ink)",
-            marginBottom: 4,
-          }}
           placeholder="Titolo del libro"
           value={draft.title || ""}
           onChange={(e) => update({ title: e.target.value })}
         />
         <input
-          style={{
-            width: "100%",
-            border: "none",
-            outline: "none",
-            background: "transparent",
-            fontSize: 16,
-            fontStyle: "italic",
-            color: "var(--ink-soft)",
-            fontFamily: "inherit",
-            marginBottom: 14,
-          }}
           placeholder="Autore"
           value={draft.author || ""}
           onChange={(e) => update({ author: e.target.value })}
@@ -281,14 +257,14 @@ export default function BookDetail({ book, onClose, onSave, onDelete }) {
         <div className="section">
           <h3>Il tuo giudizio</h3>
           <textarea
-            style={{ minHeight: 120 }}
+            className="giudizio-textarea"
             placeholder="Cosa ne pensi del libro? Cosa ti ha lasciato?"
             value={draft.giudizio || ""}
             onChange={(e) => update({ giudizio: e.target.value })}
           />
         </div>
 
-        <div style={{ textAlign: "right", marginTop: 18 }}>
+        <div className="modal-footer">
           <button className="btn primary" onClick={save}>
             Salva modifiche
           </button>

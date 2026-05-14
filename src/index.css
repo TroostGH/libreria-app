@@ -1,28 +1,63 @@
-:root {
-  /* Wood + paper palette */
-  --wood-dark: #4a2c14;
-  --wood-mid: #6b3e1f;
-  --wood-light: #8a5a2c;
-  --wood-edge: #2b1a0e;
-  --paper: #f3e7c9;
-  --paper-dim: #d9c79a;
-  --ink: #2a2018;
-  --ink-soft: #5a4a3a;
-  --gold: #d4a657;
-  --gold-dim: #9c7a3a;
-  --shadow: rgba(0, 0, 0, 0.45);
+/* =========================================================
+   La Mia Libreria — Material-inspired design system
+   ========================================================= */
 
-  /* Book spine palette (sampled in Book.jsx) */
-  --spine-1: #6b2737;
-  --spine-2: #2b4a5e;
-  --spine-3: #4a5a2b;
-  --spine-4: #5a3a2b;
-  --spine-5: #7a5a2b;
-  --spine-6: #3a3a5a;
-  --spine-7: #804040;
-  --spine-8: #2b6055;
-  --spine-9: #5e2b5e;
-  --spine-10: #404040;
+:root {
+  /* Surfaces (Material dark warm) */
+  --bg: #14100c;
+  --surface-1: #1f1813;
+  --surface-2: #2a211a;
+  --surface-3: #352a21;
+  --surface-elev: #3e3128;
+
+  /* Text */
+  --on-surface: #f4ead9;
+  --on-surface-strong: #ffffff;
+  --on-surface-muted: rgba(244, 234, 217, 0.72);
+  --on-surface-faint: rgba(244, 234, 217, 0.5);
+  --on-surface-divider: rgba(244, 234, 217, 0.12);
+
+  /* Accents */
+  --primary: #e0b369;      /* warm gold */
+  --primary-hover: #f0c279;
+  --primary-on: #1a120a;
+  --secondary: #b07a4a;
+  --danger: #e57373;
+  --reading: #ef5350;
+
+  /* Book spine palette — modern, warm-balanced */
+  --spine-1: #8a3950;
+  --spine-2: #2f5c7a;
+  --spine-3: #5b7a35;
+  --spine-4: #6c4528;
+  --spine-5: #b07a3c;
+  --spine-6: #43476b;
+  --spine-7: #a0524a;
+  --spine-8: #2f7a6a;
+  --spine-9: #7a3a7a;
+  --spine-10: #4d4d52;
+
+  /* Elevation shadows (Material) */
+  --elev-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --elev-2: 0 2px 4px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.25);
+  --elev-3: 0 4px 8px rgba(0, 0, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.3);
+  --elev-5: 0 12px 24px rgba(0, 0, 0, 0.5), 0 24px 48px rgba(0, 0, 0, 0.4);
+
+  /* Radius */
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-full: 999px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
+    sans-serif;
 }
 
 * {
@@ -35,28 +70,20 @@ body,
   margin: 0;
   padding: 0;
   min-height: 100%;
-  background: var(--wood-dark);
+  background: var(--bg);
 }
 
 body {
-  font-family: "Georgia", "Iowan Old Style", "Palatino", serif;
-  color: var(--ink);
-  background:
-    radial-gradient(ellipse at top, rgba(255, 220, 160, 0.08), transparent 60%),
-    repeating-linear-gradient(
-      90deg,
-      var(--wood-dark) 0px,
-      var(--wood-mid) 2px,
-      var(--wood-dark) 6px,
-      var(--wood-dark) 14px
-    ),
-    var(--wood-dark);
-  background-attachment: fixed;
+  font-family: var(--font-sans);
+  color: var(--on-surface);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
   min-height: 100vh;
-  padding: 32px 16px 80px;
+  padding: 24px 16px 72px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,27 +93,28 @@ body {
   width: min(1200px, 100%);
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 32px;
 }
 
-/* ----- Header ----- */
+/* =====================  Header  ===================== */
+
 .app-header {
   text-align: center;
-  color: var(--paper);
+  color: var(--on-surface);
 }
 .app-header .header-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  margin-bottom: 6px;
+  gap: 20px;
+  margin-bottom: 4px;
 }
 .app-header .app-logo {
-  width: 92px;
-  height: 92px;
+  width: 88px;
+  height: 88px;
   flex-shrink: 0;
-  border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(212, 166, 87, 0.35);
+  border-radius: var(--r-lg);
+  box-shadow: var(--elev-3);
   background: #1c1208;
   object-fit: cover;
 }
@@ -94,22 +122,23 @@ body {
   text-align: left;
 }
 .app-header h1 {
-  font-family: "Georgia", serif;
-  font-size: clamp(26px, 4vw, 42px);
-  letter-spacing: 0.04em;
-  margin: 0 0 4px;
-  color: var(--paper);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 3.6vw, 38px);
+  letter-spacing: -0.01em;
+  margin: 0 0 2px;
+  color: var(--on-surface-strong);
 }
 .app-header .subtitle {
-  color: var(--paper-dim);
-  font-style: italic;
+  color: var(--on-surface-muted);
   margin: 0;
+  font-size: 14px;
 }
+
 @media (max-width: 560px) {
   .app-header .header-row {
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
   .app-header .header-titles {
     text-align: center;
@@ -120,266 +149,239 @@ body {
   }
 }
 
+/* Stats — Material cards row */
 .stats {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
-  margin-top: 14px;
-  color: var(--paper);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+  color: var(--on-surface);
 }
 .stats .stat {
-  background: rgba(0, 0, 0, 0.25);
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid rgba(212, 166, 87, 0.3);
-  min-width: 110px;
+  background: var(--surface-2);
+  padding: 14px 12px;
+  border-radius: var(--r-md);
+  box-shadow: var(--elev-1);
+  text-align: center;
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.stats .stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--elev-2);
 }
 .stats .stat .v {
   display: block;
   font-size: 22px;
-  font-weight: bold;
-  color: var(--gold);
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: -0.02em;
 }
 .stats .stat .l {
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--paper-dim);
+  letter-spacing: 0.08em;
+  color: var(--on-surface-muted);
+  margin-top: 2px;
 }
 
-/* ----- Year navigation ----- */
+/* =====================  Year nav (chips)  ===================== */
+
 .year-nav {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
 }
 .year-nav button {
-  background: rgba(0, 0, 0, 0.2);
-  color: var(--paper-dim);
-  border: 1px solid rgba(212, 166, 87, 0.25);
-  padding: 6px 12px;
-  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--on-surface-muted);
+  border: 1px solid var(--on-surface-divider);
+  padding: 8px 16px;
+  border-radius: var(--r-full);
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: all 0.18s var(--ease);
 }
 .year-nav button:hover {
-  background: rgba(212, 166, 87, 0.15);
-  color: var(--paper);
+  background: var(--surface-3);
+  color: var(--on-surface);
+  border-color: transparent;
 }
 .year-nav button.active {
-  background: var(--gold);
-  color: var(--ink);
-  border-color: var(--gold);
+  background: var(--primary);
+  color: var(--primary-on);
+  border-color: var(--primary);
 }
 
-/* ----- Shelf ----- */
+/* =====================  Shelf  ===================== */
+
 .shelf {
-  display: flex;
-  flex-direction: column;
+  background: var(--surface-1);
+  border-radius: var(--r-lg);
+  box-shadow: var(--elev-1);
+  overflow: hidden;
   margin-bottom: 4px;
 }
+
 .shelf-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--paper);
-  padding: 4px 8px 6px;
-  border-bottom: 1px dashed rgba(212, 166, 87, 0.3);
-  margin-bottom: 10px;
+  color: var(--on-surface);
+  padding: 16px 20px;
   cursor: pointer;
   user-select: none;
+  transition: background 0.15s var(--ease);
 }
 .shelf-label[role="button"]:hover {
-  border-bottom-color: rgba(212, 166, 87, 0.6);
+  background: var(--surface-2);
 }
 .shelf-label-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 .shelf-label .chevron {
-  color: var(--gold);
-  font-size: 18px;
-  width: 18px;
+  color: var(--on-surface-muted);
+  font-size: 14px;
+  width: 16px;
   text-align: center;
   display: inline-block;
-  transition: transform 0.18s ease;
+  transition: transform 0.2s var(--ease);
 }
 .shelf-label .chevron.collapsed {
   transform: rotate(-90deg);
 }
 .shelf-label h2 {
   margin: 0;
-  font-size: 22px;
-  letter-spacing: 0.06em;
-  color: var(--gold);
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  color: var(--on-surface-strong);
+  font-family: var(--font-display);
 }
 .shelf-label .count {
-  color: var(--paper-dim);
+  color: var(--on-surface-muted);
   font-size: 13px;
-  font-style: italic;
 }
 
 .shelf-board {
-  position: relative;
-  min-height: 200px;
-  padding: 18px 14px 0;
-  border-radius: 4px;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, transparent 30%),
-    repeating-linear-gradient(
-      90deg,
-      var(--wood-light) 0px,
-      var(--wood-mid) 3px,
-      var(--wood-light) 7px,
-      var(--wood-light) 18px
-    );
-  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.4);
+  padding: 8px 20px 24px;
 }
-
-.shelf-floor {
-  height: 18px;
-  border-radius: 0 0 6px 6px;
-  background:
-    linear-gradient(180deg, var(--wood-edge) 0%, var(--wood-dark) 100%);
-  box-shadow:
-    0 4px 0 rgba(0, 0, 0, 0.4),
-    0 12px 18px var(--shadow);
-  margin-bottom: 28px;
-}
-
 .books-row {
   display: flex;
   align-items: flex-end;
-  gap: 6px 6px;
+  gap: 14px;
   flex-wrap: wrap;
-  min-height: 200px;
-  padding-bottom: 2px;
+  min-height: 220px;
 }
-
 .empty-shelf {
-  color: var(--paper-dim);
+  color: var(--on-surface-faint);
   font-style: italic;
   align-self: center;
   margin: auto;
-  padding: 30px 12px;
+  padding: 24px 12px;
+  font-size: 14px;
 }
 
-/* ----- Book "face out" ----- */
+/* =====================  Book card  ===================== */
+
 .book {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: var(--paper);
-  border-radius: 3px 3px 1px 1px;
+  color: var(--on-surface);
+  border-radius: 10px;
   cursor: pointer;
   user-select: none;
   flex-shrink: 0;
-  height: 220px; /* uniform height for a tidy shelf */
-  padding: 16px 16px 12px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, margin 0.15s ease;
-  box-shadow:
-    inset 0 -3px 0 rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.18),
-    1px 2px 5px rgba(0, 0, 0, 0.45);
-  border-top: 2px solid rgba(255, 255, 255, 0.1);
-  background-image: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    transparent 14%,
-    transparent 86%,
-    rgba(0, 0, 0, 0.18) 100%
-  );
+  height: 220px;
+  padding: 16px 16px 14px;
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+  box-shadow: var(--elev-2);
   overflow: hidden;
 }
+.book::after {
+  /* subtle top-edge highlight to keep a hint of "book" feel */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.16),
+    rgba(255, 255, 255, 0.08) 40%,
+    rgba(255, 255, 255, 0)
+  );
+  pointer-events: none;
+}
 .book:hover {
-  transform: translateY(-6px);
-  box-shadow:
-    inset 0 -3px 0 rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.18),
-    2px 6px 16px rgba(0, 0, 0, 0.6);
+  transform: translateY(-4px);
+  box-shadow: var(--elev-3);
   z-index: 2;
 }
 
-/* Red bookmark: pinned to the right edge, doesn't cover the title */
+/* Currently-reading bookmark — flat, rounded, on the right edge */
 .book.reading::before {
   content: "";
   position: absolute;
   top: -2px;
-  right: 12px;
+  right: 14px;
   width: 10px;
-  height: 56%;
-  background: linear-gradient(180deg, #c41e3a 0%, #8b0000 100%);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  height: 52%;
+  background: var(--reading);
   pointer-events: none;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 86%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 84%, 0 100%);
   z-index: 1;
 }
 .book.abandoned {
-  opacity: 0.6;
-  filter: grayscale(0.45);
-}
-.book.toread {
-  /* Subtle "queued" look */
-  box-shadow:
-    inset 0 -3px 0 rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.18),
-    1px 2px 5px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(212, 166, 87, 0.25);
+  opacity: 0.55;
+  filter: grayscale(0.4);
 }
 
 .book .book-content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   flex: 1;
   min-height: 0;
-  min-width: 0; /* allow flex children to actually shrink */
+  min-width: 0;
 }
 .book .book-title {
-  font-family: "Georgia", serif;
+  font-family: var(--font-display);
   font-size: 14px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--paper);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
-  /* Hyphenate long words ("Geopolitica", "Antifragile") instead of letting
-     them stick out of the book. */
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  color: #fff;
   word-break: break-word;
   overflow-wrap: anywhere;
   hyphens: auto;
-  /* Clamp to a few lines so books stay consistent height */
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-/* When the reading-bookmark is present, leave room on the right so it
-   never touches the title. */
 .book.reading .book-title {
   padding-right: 16px;
 }
 
-/* Author has its own dark ribbon so it's visually distinct from the title */
 .book .book-author-ribbon {
-  background: rgba(0, 0, 0, 0.32);
-  border-left: 2px solid rgba(212, 166, 87, 0.55);
-  padding: 4px 6px;
-  border-radius: 0 3px 3px 0;
-  align-self: stretch;
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 6px;
+  padding: 4px 8px;
+  align-self: flex-start;
+  max-width: 100%;
 }
 .book .book-author {
   font-size: 11px;
   font-style: italic;
-  line-height: 1.25;
-  color: #f0e3c5;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.88);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -387,19 +389,16 @@ body {
   word-break: break-word;
 }
 
-/* Real stars at the bottom of the book */
 .book .rating {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1px;
   margin-top: 8px;
   font-size: 13px;
   line-height: 1;
-  letter-spacing: 0;
 }
 .book .rating .star.on {
-  color: var(--gold);
-  text-shadow: 0 0 4px rgba(212, 166, 87, 0.5);
+  color: var(--primary);
 }
 .book .rating .star.off {
   color: rgba(255, 255, 255, 0.22);
@@ -408,206 +407,262 @@ body {
   font-size: 10px;
   font-style: italic;
   color: rgba(255, 255, 255, 0.35);
+  text-align: left;
 }
 
-/* Status badges */
+/* Status badges (top-right pill) */
 .book .badge {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 8px;
+  right: 8px;
   font-size: 9px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 3px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--r-full);
   pointer-events: none;
 }
 .book .toread-badge {
-  background: rgba(212, 166, 87, 0.92);
-  color: #2a1808;
+  background: var(--primary);
+  color: var(--primary-on);
 }
 .book .abandoned-badge {
   background: rgba(0, 0, 0, 0.55);
-  color: var(--paper-dim);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .book.empty-add {
-  background: none !important;
-  background-image: none !important;
-  border: 2px dashed rgba(212, 166, 87, 0.45);
+  background: transparent !important;
+  border: 1.5px dashed rgba(224, 179, 105, 0.5);
   box-shadow: none;
-  color: var(--gold);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   font-size: 13px;
-  padding: 8px;
+  font-weight: 500;
+  padding: 12px;
   height: 220px;
 }
+.book.empty-add::after {
+  display: none;
+}
 .book.empty-add:hover {
-  border-color: var(--gold);
+  border-color: var(--primary);
+  background: rgba(224, 179, 105, 0.06) !important;
   transform: translateY(-4px);
+  box-shadow: none;
 }
 
-/* ----- Modal / detail ----- */
+/* =====================  Modal / detail  ===================== */
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(20, 12, 6, 0.72);
-  backdrop-filter: blur(4px);
+  background: rgba(8, 5, 3, 0.7);
+  backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 24px 12px;
+  padding: 32px 12px;
   z-index: 50;
   overflow-y: auto;
 }
 .modal {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--surface-2);
+  color: var(--on-surface);
   width: min(820px, 100%);
-  border-radius: 6px;
-  border: 1px solid var(--paper-dim);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-  padding: 22px 26px 28px;
-  font-family: "Georgia", serif;
+  border-radius: var(--r-lg);
+  box-shadow: var(--elev-5);
+  padding: 24px 28px 28px;
+  font-family: var(--font-sans);
 }
 
 .modal .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--paper-dim);
-  padding-bottom: 8px;
-  margin-bottom: 14px;
+  border-bottom: 1px solid var(--on-surface-divider);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.modal .topbar > div:first-child {
+  font-size: 11px !important;
+  color: var(--primary) !important;
+  letter-spacing: 0.1em !important;
+  font-weight: 600 !important;
 }
 .modal .topbar .actions {
   display: flex;
   gap: 8px;
 }
+
 .btn {
   font-family: inherit;
   font-size: 14px;
-  padding: 6px 14px;
-  border-radius: 6px;
-  border: 1px solid var(--ink-soft);
-  background: var(--paper);
-  color: var(--ink);
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: var(--r-full);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--on-surface);
   cursor: pointer;
+  transition: all 0.15s var(--ease);
+  letter-spacing: 0.01em;
 }
 .btn:hover {
-  background: #e8d8b0;
+  background: var(--surface-3);
 }
 .btn.primary {
-  background: var(--wood-mid);
-  color: var(--paper);
-  border-color: var(--wood-edge);
+  background: var(--primary);
+  color: var(--primary-on);
 }
 .btn.primary:hover {
-  background: var(--wood-edge);
+  background: var(--primary-hover);
+  box-shadow: var(--elev-2);
 }
 .btn.danger {
-  border-color: #7c2a1f;
-  color: #7c2a1f;
+  color: var(--danger);
+  border-color: rgba(229, 115, 115, 0.4);
 }
 .btn.danger:hover {
-  background: #f6d8d3;
+  background: rgba(229, 115, 115, 0.1);
 }
 .btn.ghost {
-  border-color: transparent;
-  color: var(--ink-soft);
-  background: transparent;
+  color: var(--on-surface-muted);
 }
 
-.modal h2.book-title {
-  font-size: 28px;
-  margin: 0 0 4px;
-  color: var(--ink);
+.modal .book-title-input {
+  width: 100% !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  font-size: 26px !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  color: var(--on-surface-strong) !important;
+  margin-bottom: 2px !important;
+  letter-spacing: -0.01em !important;
 }
-.modal .book-author {
-  font-style: italic;
-  color: var(--ink-soft);
-  margin: 0 0 14px;
+.modal input[placeholder="Titolo del libro"] {
+  width: 100% !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  font-size: 26px !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  color: var(--on-surface-strong) !important;
+  margin-bottom: 2px !important;
+}
+.modal input[placeholder="Autore"] {
+  width: 100% !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  font-size: 15px !important;
+  color: var(--on-surface-muted) !important;
+  font-family: inherit !important;
+  font-style: italic !important;
+  margin-bottom: 18px !important;
 }
 
 .fields-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 10px 18px;
-  margin-bottom: 18px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--paper-dim);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px 18px;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--on-surface-divider);
 }
 .field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 .field label {
   font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--on-surface-muted);
+  font-weight: 500;
 }
 .field input,
 .field select,
 .field textarea {
   font-family: inherit;
   font-size: 14px;
-  padding: 6px 8px;
-  border: 1px solid var(--paper-dim);
-  background: #fff8e7;
-  color: var(--ink);
-  border-radius: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--on-surface-divider);
+  background: var(--surface-1);
+  color: var(--on-surface);
+  border-radius: var(--r-sm);
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
 }
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  outline: 2px solid var(--gold-dim);
-  outline-offset: -1px;
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(224, 179, 105, 0.2);
 }
 .field .value {
-  font-size: 15px;
-  color: var(--ink);
+  font-size: 14px;
+  color: var(--on-surface);
+  padding: 10px 12px;
+  background: var(--surface-1);
+  border-radius: var(--r-sm);
+  border: 1px dashed var(--on-surface-divider);
 }
 
 .stars {
   display: inline-flex;
-  gap: 2px;
+  gap: 4px;
   cursor: pointer;
+  padding: 6px 0;
 }
 .stars .star {
-  color: var(--paper-dim);
-  font-size: 20px;
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 22px;
   line-height: 1;
+  transition: transform 0.12s var(--ease);
 }
 .stars .star.on {
-  color: var(--gold-dim);
+  color: var(--primary);
+}
+.stars .star:hover {
+  transform: scale(1.15);
 }
 .stars.readonly {
   cursor: default;
 }
 
 .section {
-  margin-top: 14px;
+  margin-top: 18px;
 }
 .section h3 {
-  font-size: 16px;
+  font-family: var(--font-display);
+  font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-soft);
-  margin: 0 0 8px;
-  border-bottom: 1px dashed var(--paper-dim);
-  padding-bottom: 4px;
+  color: var(--on-surface-muted);
+  font-weight: 600;
+  margin: 0 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--on-surface-divider);
 }
 .section .item {
   position: relative;
-  padding: 6px 28px 6px 14px;
-  margin-bottom: 6px;
-  border-left: 3px solid var(--gold-dim);
-  background: #ece0bc;
-  border-radius: 0 4px 4px 0;
+  padding: 10px 32px 10px 14px;
+  margin-bottom: 8px;
+  background: var(--surface-3);
+  border-radius: var(--r-sm);
+  border-left: 3px solid var(--primary);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--on-surface);
 }
 .section .quote {
   font-style: italic;
@@ -615,21 +670,25 @@ body {
 .section .item .remove {
   position: absolute;
   top: 6px;
-  right: 6px;
+  right: 8px;
   background: transparent;
   border: none;
-  color: var(--ink-soft);
+  color: var(--on-surface-faint);
   cursor: pointer;
-  font-size: 16px;
-  padding: 0 4px;
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: var(--r-full);
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
 }
 .section .item .remove:hover {
-  color: #7c2a1f;
+  background: rgba(229, 115, 115, 0.15);
+  color: var(--danger);
 }
 .section textarea {
   width: 100%;
-  min-height: 60px;
-  margin-bottom: 8px;
+  min-height: 64px;
+  margin-bottom: 10px;
   resize: vertical;
 }
 .section .add-row {
@@ -638,22 +697,38 @@ body {
 }
 .section .empty {
   font-style: italic;
-  color: var(--ink-soft);
+  color: var(--on-surface-faint);
   font-size: 13px;
+  margin: 0 0 10px;
+}
+.section .giudizio-textarea {
+  min-height: 130px;
+}
+.modal-footer {
+  text-align: right;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--on-surface-divider);
 }
 
-/* ----- Mobile tweaks ----- */
+/* =====================  Mobile  ===================== */
+
 @media (max-width: 640px) {
   #root {
-    padding: 18px 8px 60px;
+    padding: 16px 10px 60px;
   }
   .shelf-board {
-    padding: 14px 8px 0;
+    padding: 8px 12px 16px;
   }
   .modal {
-    padding: 16px 14px 22px;
+    padding: 18px 16px 22px;
+    border-radius: var(--r-md);
   }
-  .modal h2.book-title {
-    font-size: 22px;
+  .modal .book-title-input,
+  .modal input[placeholder="Titolo del libro"] {
+    font-size: 22px !important;
+  }
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

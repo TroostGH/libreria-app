@@ -33,29 +33,26 @@ export default function Shelf({
       </div>
 
       {!collapsed && (
-        <>
-          <div className="shelf-board">
-            <div className="books-row">
-              {books.length === 0 && !onAdd && (
-                <div className="empty-shelf">Nessun libro qui ancora.</div>
-              )}
-              {books.map((b) => (
-                <Book key={b.id} book={b} onClick={() => onPick(b)} />
-              ))}
-              {onAdd && (
-                <div
-                  className="book empty-add"
-                  style={{ width: 110 }}
-                  onClick={onAdd}
-                  title="Aggiungi un libro a questo scaffale"
-                >
-                  + Aggiungi
-                </div>
-              )}
-            </div>
+        <div className="shelf-board">
+          <div className="books-row">
+            {books.length === 0 && !onAdd && (
+              <div className="empty-shelf">Nessun libro qui ancora.</div>
+            )}
+            {books.map((b) => (
+              <Book key={b.id} book={b} onClick={() => onPick(b)} />
+            ))}
+            {onAdd && (
+              <div
+                className="book empty-add"
+                style={{ width: 110 }}
+                onClick={onAdd}
+                title="Aggiungi un libro a questo scaffale"
+              >
+                + Aggiungi
+              </div>
+            )}
           </div>
-          <div className="shelf-floor" />
-        </>
+        </div>
       )}
     </section>
   );
