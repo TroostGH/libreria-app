@@ -58,14 +58,13 @@ export default function Book({ book, onClick }) {
       onClick={onClick}
       title={`${book.title}${book.author ? " — " + book.author : ""}`}
     >
-      {book.status === "toread" && (
-        <span className="badge toread-badge">Da leggere</span>
-      )}
-      {book.status === "abandoned" && (
-        <span className="badge abandoned-badge">Abbandonato</span>
-      )}
-
       <div className="book-content">
+        {book.status === "toread" && (
+          <span className="badge toread-badge">Da leggere</span>
+        )}
+        {book.status === "abandoned" && (
+          <span className="badge abandoned-badge">Abbandonato</span>
+        )}
         <div className="book-title">{book.title}</div>
         {book.author && (
           <div className="book-author-ribbon">
