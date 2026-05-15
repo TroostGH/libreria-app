@@ -251,7 +251,6 @@ export default function App() {
             sublabel={sublabelFor(y, grouped.get(y) || [])}
             books={(grouped.get(y) || []).slice().sort(shelfSort)}
             onPick={setSelected}
-            onAdd={() => handleAdd(y)}
             collapsed={!!collapsed[y]}
             onToggleCollapse={() => toggleShelf(y)}
           />
