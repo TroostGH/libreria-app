@@ -54,6 +54,7 @@ export default function App() {
   const [error, setError] = useState(null);
   const [selected, setSelected] = useState(null); // book being viewed/edited
   const [collapsed, setCollapsed] = useState({}); // { [yearOrZero]: true }
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -85,7 +86,17 @@ export default function App() {
     })();
   }, []);
 
-  const grouped = useMemo(() => groupByYear(books), [books]);
+  const filteredBooks = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return books;
+    return books.filter((b) => {
+      const t = (b.title || "").toLowerCase();
+      const a = (b.author || "").toLowerCase();
+      return t.includes(q) || a.includes(q);
+    });
+  }, [books, query]);
+
+  const grouped = useMemo(() => groupByYear(filteredBooks), [filteredBooks]);
   const years = useMemo(
     () => [...grouped.keys()].filter((y) => y > 0).sort((a, b) => b - a),
     [grouped]
@@ -209,6 +220,51 @@ export default function App() {
         )}
       </header>
 
+      <div className="search-bar">
+        <svg
+          className="search-icon"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+          <line
+            x1="16.5"
+            y1="16.5"
+            x2="21"
+            y2="21"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+        <input
+          type="search"
+          placeholder="Cerca per titolo o autore…"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          aria-label="Cerca libro per titolo o autore"
+        />
+        {query && (
+          <button
+            type="button"
+            className="search-clear"
+            onClick={() => setQuery("")}
+            aria-label="Cancella ricerca"
+            title="Cancella ricerca"
+          >
+            ×
+          </button>
+        )}
+        {query && (
+          <span className="search-count">
+            {filteredBooks.length} {filteredBooks.length === 1 ? "risultato" : "risultati"}
+          </span>
+        )}
+      </div>
+
       <nav className="year-nav">
         <button
           onClick={() =>
@@ -231,18 +287,21 @@ export default function App() {
         ))}
       </nav>
 
-      {/* "Da leggere" shelf — year 0 is reserved for wishlist */}
-      <div id="shelf-0">
-        <Shelf
-          label="Da leggere"
-          sublabel={sublabelFor(0, grouped.get(0) || [])}
-          books={(grouped.get(0) || []).slice().sort(shelfSort)}
-          onPick={setSelected}
-          onAdd={() => handleAdd(0)}
-          collapsed={!!collapsed[0]}
-          onToggleCollapse={() => toggleShelf(0)}
-        />
-      </div>
+      {/* "Da leggere" shelf — year 0 is reserved for wishlist.
+          During an active search, hide it if no toread book matches. */}
+      {(!query || (grouped.get(0) || []).length > 0) && (
+        <div id="shelf-0">
+          <Shelf
+            label="Da leggere"
+            sublabel={sublabelFor(0, grouped.get(0) || [])}
+            books={(grouped.get(0) || []).slice().sort(shelfSort)}
+            onPick={setSelected}
+            onAdd={query ? undefined : () => handleAdd(0)}
+            collapsed={!!collapsed[0]}
+            onToggleCollapse={() => toggleShelf(0)}
+          />
+        </div>
+      )}
 
       {years.map((y) => (
         <div key={y} id={`shelf-${y}`}>
@@ -256,6 +315,12 @@ export default function App() {
           />
         </div>
       ))}
+
+      {query && filteredBooks.length === 0 && (
+        <div className="no-results">
+          Nessun libro corrisponde a “<strong>{query}</strong>”.
+        </div>
+      )}
 
       {selected && (
         <BookDetail
