@@ -58,7 +58,7 @@ export default function Book({ book, onClick }) {
       onClick={onClick}
       title={`${book.title}${book.author ? " — " + book.author : ""}`}
     >
-      <div className="book-content">
+      <div className="book-top">
         {book.status === "toread" && (
           <span className="badge toread-badge">Da leggere</span>
         )}
@@ -66,14 +66,16 @@ export default function Book({ book, onClick }) {
           <span className="badge abandoned-badge">Abbandonato</span>
         )}
         <div className="book-title">{book.title}</div>
+      </div>
+
+      <div className="book-bottom">
         {book.author && (
           <div className="book-author-ribbon">
             <span className="book-author">{book.author}</span>
           </div>
         )}
+        <Stars value={book.rate} />
       </div>
-
-      <Stars value={book.rate} />
     </div>
   );
 }
